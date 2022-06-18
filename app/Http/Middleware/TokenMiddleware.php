@@ -21,14 +21,14 @@ class TokenMiddleware
     {
         $token = $request->header('Token');
 
-//        if (!$this->tokenService->validate($token)) {
-//           return response()->json([
-//                "success" => false,
-//                "message" => 'The token expired.'
-//            ], 401);
-//        }
+        if (!$this->tokenService->validate($token)) {
+           return response()->json([
+                "success" => false,
+                "message" => 'The token expired.'
+            ], 401);
+        }
 
-//        $this->tokenService->remove($token);
+        $this->tokenService->remove($token);
 
         return $next($request);
     }

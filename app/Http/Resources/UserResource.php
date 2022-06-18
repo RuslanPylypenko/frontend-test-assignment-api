@@ -18,7 +18,7 @@ class UserResource extends JsonResource
             "position" => new PositionResource($this->whenLoaded('position')),
             "position_id" => $this->position_id,
             "registration_timestamp" => Carbon::make($this->created_at)->timestamp,
-            "photo" => $this->photo
+            "photo" => $this->getPhoto()
         ];
     }
 }

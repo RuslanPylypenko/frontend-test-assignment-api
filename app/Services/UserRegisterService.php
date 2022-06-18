@@ -5,17 +5,29 @@ namespace App\Services;
 
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 class UserRegisterService
 {
     public function register($data): User
     {
 
-        $this->guardUserExists($data);
+         $this->guardUserExists($data);
 
         /** @var User $user */
         $user = User::make($data);
         $user->position()->associate($data['position_id']);
+
+
+        /** @var UploadedFile $photo */
+        $photo = $data['photo'];
+        $filePath = public_path("storage/images/users");
+        $fileName = Str::random() . '.' . $photo->getClientOriginalExtension();
+        $photo->move($filePath, $fileName);
+
+        $user->photo = $fileName;
+
         $user->save();
 
         return $user;
