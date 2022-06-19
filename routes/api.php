@@ -10,7 +10,7 @@ Route::get('token', [AuthController::class, 'token']);
 Route::get('positions', [PositionsController::class, 'index'])->name('positions.index');
 Route::get('users', [UsersController::class, 'index'])->name('users.index');
 Route::post('users', [UsersController::class, 'store'])
-    //->middleware('token')
+    ->middleware('token')
     ->name('users.store');
 Route::get('users/{id}', [UsersController::class, 'show'])
     ->name('users.show');
