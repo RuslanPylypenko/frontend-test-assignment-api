@@ -6,31 +6,35 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UserRegisterService
 {
     public function register($data): User
     {
 
-         $this->guardUserExists($data);
+        //  $this->guardUserExists($data);
 
         /** @var User $user */
         $user = User::make($data);
         $user->position()->associate($data['position_id']);
-
-
-        /** @var UploadedFile $photo */
-        $photo = $data['photo'];
-        $filePath = public_path("storage/images/users");
-        $fileName = Str::random() . '.' . $photo->getClientOriginalExtension();
-        $photo->move($filePath, $fileName);
-
-        $user->photo = $fileName;
-
+        $user->photo = $this->processAvatar($data['photo']);
         $user->save();
 
         return $user;
+    }
+
+
+    private function processAvatar(UploadedFile $photo)
+    {
+        $img = Image::make($photo);
+        $img->crop(70, 70);
+
+        $hash = $photo->hashName('images/users');
+        Storage::put('public/' . $hash, (string)$img->encode(null, 80));
+
+        return $hash;
     }
 
 

@@ -81,7 +81,7 @@ class UsersController extends Controller
             return response()->json([
                 'success' => false,
                 "message" => $exception->getMessage(),
-            ], $exception->getCode());
+            ], 500);
         }
 
     }
