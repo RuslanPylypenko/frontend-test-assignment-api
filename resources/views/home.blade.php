@@ -19,5 +19,6 @@
 
         </tbody>
     </table>
+    <p><button type="button" class="btn btn-success" id='load-more' data-page="1">Load more</button></p>
 
 @endsection

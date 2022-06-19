@@ -2245,24 +2245,30 @@ var UsersComponent = /*#__PURE__*/function () {
     _classCallCheck(this, UsersComponent);
 
     this.$el = document.getElementById(id);
-    this.$el.addEventListener('click', loadMoreHandler.bind(this));
+    document.getElementById('load-more').addEventListener('click', loadMoreHandler.bind(this));
   }
 
   _createClass(UsersComponent, [{
     key: "load",
     value: function () {
       var _load = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var response;
+        var page,
+            response,
+            _args = arguments;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.get('/api/users');
+                page = _args.length > 0 && _args[0] !== undefined ? _args[0] : 1;
+                _context.next = 3;
+                return axios.get('/api/users', {
+                  params: {
+                    page: page
+                  }
+                });
 
-              case 2:
+              case 3:
                 response = _context.sent;
-                console.log(response);
                 this.render(response.data.users);
 
               case 5:
@@ -2286,8 +2292,7 @@ var UsersComponent = /*#__PURE__*/function () {
         return templateUser(user);
       });
       var container = this.$el.querySelector('tbody');
-      container.innerHTML = '';
-      container.insertAdjacentHTML('afterbegin', html.join(' '));
+      container.insertAdjacentHTML('beforeend', html.join(' '));
     }
   }]);
 
@@ -2296,7 +2301,10 @@ var UsersComponent = /*#__PURE__*/function () {
 
 
 
-function loadMoreHandler(event) {}
+function loadMoreHandler(event) {
+  event.target.dataset.page = parseInt(event.target.dataset.page) + 1;
+  this.load(event.target.dataset.page);
+}
 
 function templateUser(user) {
   return "\n        <tr>\n            <td>".concat(user.id, "</td>\n            <td>").concat(user.name, "</td>\n            <td>").concat(user.email, "</td>\n            <td>").concat(user.phone, "</td>\n            <td><img src=\"").concat(user.photo, "\" alt=\"").concat(user.name, "\" class=\"image\"></td>\n            <td>").concat(user.position.name, "</td>\n        </tr>\n    ");

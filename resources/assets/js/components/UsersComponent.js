@@ -1,12 +1,11 @@
 export default class UsersComponent {
     constructor(id) {
         this.$el = document.getElementById(id);
-        this.$el.addEventListener('click', loadMoreHandler.bind(this))
+        document.getElementById('load-more').addEventListener('click', loadMoreHandler.bind(this))
     }
 
-    async load() {
-        const response = await axios.get('/api/users')
-        console.log(response);
+    async load(page = 1) {
+        const response = await axios.get('/api/users', {params: {page}})
         this.render(response.data.users)
     }
 
@@ -14,13 +13,14 @@ export default class UsersComponent {
     render(users) {
         const html = users.map(user => templateUser(user));
         const container = this.$el.querySelector('tbody');
-        container.innerHTML = '';
-        container.insertAdjacentHTML('afterbegin', html.join(' '))
+        container.insertAdjacentHTML('beforeend', html.join(' '))
     }
 }
 
 function loadMoreHandler(event) {
+    event.target.dataset.page = parseInt(event.target.dataset.page) + 1
 
+    this.load(event.target.dataset.page)
 }
 
 function templateUser(user) {
