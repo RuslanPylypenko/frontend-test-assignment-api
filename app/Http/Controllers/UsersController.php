@@ -15,6 +15,7 @@ use Illuminate\Validation\ValidationException;
 
 class UsersController extends Controller
 {
+    const PER_PAGE = 6;
     private UsersRepository $usersRepository;
     private UserRegisterService $registerService;
 
@@ -34,7 +35,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        return new UserCollection($this->usersRepository->findAll(5));
+        return new UserCollection($this->usersRepository->findAll(self::PER_PAGE));
     }
 
     public function show($id)

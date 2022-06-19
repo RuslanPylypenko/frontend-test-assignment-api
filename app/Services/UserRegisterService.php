@@ -26,7 +26,7 @@ class UserRegisterService
     }
 
 
-    private function processAvatar(UploadedFile $photo)
+    public function processAvatar($photo)
     {
         $img = Image::make($photo);
         $img->crop(70, 70);
