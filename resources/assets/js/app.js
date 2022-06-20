@@ -1,11 +1,12 @@
 import './bootstrap';
 import UsersComponent from "./components/UsersComponent";
+import UsersFormComponent from "./components/UsersFormComponent";
 
-const Users = new UsersComponent('users-list')
 
 document.addEventListener('DOMContentLoaded', function () {
+    const Users = new UsersComponent('users-list')
 
-    Users.load();
+    const UsersForm = new UsersFormComponent('create-user-form')
 
 })
 

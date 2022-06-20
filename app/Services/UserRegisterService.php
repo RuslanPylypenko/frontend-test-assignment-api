@@ -14,7 +14,7 @@ class UserRegisterService
     public function register($data): User
     {
 
-        //  $this->guardUserExists($data);
+        $this->guardUserExists($data);
 
         /** @var User $user */
         $user = User::make($data);

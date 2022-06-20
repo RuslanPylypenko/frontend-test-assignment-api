@@ -19,7 +19,7 @@ class TokenMiddleware
 
     public function handle(Request $request, Closure $next)
     {
-        $token = $request->header('Token');
+        $token = $request->header('Token', '');
 
         if (!$this->tokenService->validate($token)) {
            return response()->json([

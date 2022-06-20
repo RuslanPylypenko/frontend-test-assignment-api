@@ -1,7 +1,11 @@
 export default class UsersComponent {
     constructor(id) {
         this.$el = document.getElementById(id);
-        document.getElementById('load-more').addEventListener('click', loadMoreHandler.bind(this))
+
+        if(this.$el){
+            document.getElementById('load-more').addEventListener('click', loadMoreHandler.bind(this))
+            this.load()
+        }
     }
 
     async load(page = 1) {

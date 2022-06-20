@@ -1,13 +1,10 @@
 <?php
 
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-
-
-
+use App\Http\Controllers\Controller;
 use App\Services\TokenService;
-use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
